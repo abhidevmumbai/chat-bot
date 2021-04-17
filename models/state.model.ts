@@ -1,7 +1,4 @@
-export enum StateTypes {
-  Question,
-  Statement
-}
+import { StateTypes } from "../enums";
 
 export interface State {
     type: StateTypes
@@ -11,8 +8,4 @@ export interface State {
     choices?: string[]
     next?: string
     answer?: string
-}
-
-export interface States {
-    [index: string]: State
 }

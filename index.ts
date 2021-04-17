@@ -4,8 +4,8 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Prompt } from './services/prompt'
 import { Data } from './services/data'
 import { StateService } from './services/state'
-
-import { StateTypes, States } from './config/types'
+import { StateTypes } from './enums';
+import { StateList } from './models';
 
 const FSM = sm`
 Welcome 'next' -> Authentication 'next' -> Menu;
@@ -15,7 +15,7 @@ Menu <-> Colour;
 Menu -> Goodbye;
 `;
 
-const states: States = {
+const states: StateList = {
     'Welcome': {
         type: StateTypes.Question,
         text: () => "Welcome to Replicant! I'm a Thinking Machine on a recorded line. Before we begin I'd like to ask you a few questions. First, what is your name?",

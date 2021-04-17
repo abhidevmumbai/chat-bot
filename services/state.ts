@@ -1,12 +1,12 @@
-import { State, StateTypes, States } from "../config/types";
 import { Voice } from './voice'
 import { Prompt } from './prompt'
-
+import { StateTypes } from '../enums';
+import { StateList, State } from '../models';
 
 export class StateService {
 
     machine: any;
-    states: States;
+    states: StateList;
     stateName: string;
     state: State
 
