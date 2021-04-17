@@ -1,5 +1,4 @@
-import { Voice } from './voice'
-import { Prompt } from './prompt'
+import { Voice, Prompt } from '.';
 import { StateTypes } from '../enums';
 import { StateList, State } from '../models';
 

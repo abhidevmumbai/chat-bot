@@ -1,11 +1,9 @@
 import { sm } from 'jssm';
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { Prompt } from './services/prompt'
-import { Data } from './services/data'
-import { StateService } from './services/state'
 import { StateTypes } from './enums';
 import { StateList } from './models';
+import { Data, Prompt, StateService } from './services';
 
 const FSM = sm`
 Welcome 'next' -> Authentication 'next' -> Menu;

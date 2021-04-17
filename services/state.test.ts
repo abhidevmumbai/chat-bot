@@ -2,10 +2,9 @@ jest.mock('readline');
 jest.useFakeTimers();
 
 import { sm } from 'jssm';
-import { States, StateTypes } from '../config/types';
-import { StateService } from './state'
-import { Prompt } from './prompt';
-import { Voice } from './voice';
+import { StateService, Prompt, Voice } from '.';
+import { StateTypes } from '../enums';
+import { StateList } from '../models';
 
 describe('`State Service`', () => {
 
@@ -23,7 +22,7 @@ describe('`State Service`', () => {
 
     beforeEach(() => {
         const FSM = sm`Welcome 'next' <-> Authentication 'next' <-> Menu;`;
-        const states: States = {
+        const states: StateList = {
             'Welcome': {
                 type: StateTypes.Question,
                 before: jest.fn(),
