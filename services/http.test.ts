@@ -1,9 +1,8 @@
-import axios from "axios";
-import { Http } from "./http";
+import axios from 'axios';
+import { Http } from './http';
 jest.mock('axios');
 
 describe('`Http Service`', () => {
-
     it('should offer `getWeatherByLocation`', () => {
         expect(Http.getWeatherByLocation).toBeDefined();
     });
@@ -12,8 +11,11 @@ describe('`Http Service`', () => {
         const weather = await Http.getWeatherByLocation('Toronto');
         const temperature = '15';
 
-        axios.request = jest.fn()
-            .mockImplementationOnce(() => Promise.resolve({ data: { main: { temp: temperature } } }));
+        axios.request = jest
+            .fn()
+            .mockImplementationOnce(() =>
+                Promise.resolve({ data: { main: { temp: temperature } } })
+            );
         expect(weather).toEqual(temperature);
     });
 });

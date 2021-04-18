@@ -1,4 +1,4 @@
 export enum StateTypes {
-  Question,
-  Statement
+    Question,
+    Statement,
 }

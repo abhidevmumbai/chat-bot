@@ -1,25 +1,24 @@
-const say = require('say')
+const say = require('say');
 
 export class VoiceService {
-    
     isSpeaking: boolean;
     activePhrase: string;
 
-    onClose(phrase){
+    onClose(phrase) {
         if (this.isSpeaking && this.activePhrase === phrase) {
-            this.isSpeaking = false
+            this.isSpeaking = false;
         }
     }
 
     stop() {
-        say.stop()
+        say.stop();
     }
 
     speak(phrase) {
         this.activePhrase = phrase;
-        say.speak(phrase, null, null, () => this.onClose(phrase))
+        say.speak(phrase, null, null, () => this.onClose(phrase));
         this.isSpeaking = true;
     }
- }
+}
 
 export const Voice = new VoiceService();

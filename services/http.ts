@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 
 class HttpService {
-    constructor() { }
+    constructor() {}
 
     async getWeatherByLocation(location) {
         const options: AxiosRequestConfig = {
@@ -9,12 +9,13 @@ class HttpService {
             url: 'https://community-open-weather-map.p.rapidapi.com/weather',
             params: {
                 q: location,
-                units: 'metric'
+                units: 'metric',
             },
             headers: {
-                'x-rapidapi-key': '17e5d1c9a4msh9626219b27e0824p1a0965jsn0f56fbb373c6',
-                'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
-            }
+                'x-rapidapi-key':
+                    '17e5d1c9a4msh9626219b27e0824p1a0965jsn0f56fbb373c6',
+                'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
+            },
         };
 
         const response = await axios.request(options);

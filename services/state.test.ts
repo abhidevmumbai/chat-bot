@@ -7,38 +7,36 @@ import { StateTypes } from '../enums';
 import { StateList } from '../models';
 
 describe('`State Service`', () => {
-
     let State: StateService;
 
     beforeAll(() => {
         Prompt.interface = {
             question: jest.fn().mockReturnValue('hello'),
-            close: jest.fn()
-        }
+            close: jest.fn(),
+        };
 
-        Voice.speak = jest.fn()
-        Voice.stop = jest.fn()
-    })
+        Voice.speak = jest.fn();
+        Voice.stop = jest.fn();
+    });
 
     beforeEach(() => {
-        const FSM = sm`Welcome 'next' <-> WhatColor 'next' <-> Menu;`;
+        const FSM = sm`Welcome 'next' <-> Color 'next' <-> Menu;`;
         const states: StateList = {
-            'Welcome': {
+            Welcome: {
                 type: StateTypes.Question,
                 before: jest.fn(),
                 text: jest.fn().mockReturnValue('hello'),
-                after: jest.fn()
+                after: jest.fn(),
             },
-            'WhatColor': {
+            Color: {
                 type: StateTypes.Statement,
                 before: jest.fn(),
                 text: jest.fn().mockReturnValue('hello'),
-                after: jest.fn()
-            }
+                after: jest.fn(),
+            },
         };
-        State = new StateService(FSM, states)
-    })
-
+        State = new StateService(FSM, states);
+    });
 
     it('should offer `executeState`, `transitionIn` and `transitionOut`', () => {
         expect(State.executeState).toBeDefined();
@@ -48,74 +46,73 @@ describe('`State Service`', () => {
 
     describe('`transitionIn`', () => {
         it('should run `before` if there is one', async () => {
-            await State.transitionIn()
+            await State.transitionIn();
             expect(State.state.before).toHaveBeenCalled();
         });
     });
 
     describe('`transitionOut`', () => {
-
         beforeEach(() => {
-            State.executeState = jest.fn()
-            State.machine.transition = jest.fn()
-            State.machine.action = jest.fn()
+            State.executeState = jest.fn();
+            State.machine.transition = jest.fn();
+            State.machine.action = jest.fn();
         });
 
         it('should run `after` if there is one', async () => {
-            await State.transitionOut()
+            await State.transitionOut();
             expect(State.state.after).toHaveBeenCalled();
         });
 
         it('should transition to `next` if it exists', async () => {
             State.state.next = 'next';
 
-            await State.transitionOut()
+            await State.transitionOut();
 
             expect(State.machine.transition).toHaveBeenCalled();
-            expect(State.machine.transition).toHaveBeenCalledWith(State.state.next);
+            expect(State.machine.transition).toHaveBeenCalledWith(
+                State.state.next
+            );
         });
 
         it('should transition to a choice it exists in `choices`', async () => {
             State.state.answer = 'menu1';
             State.state.choices = ['menu1', 'menu2'];
 
-            await State.transitionOut()
+            await State.transitionOut();
 
             expect(State.machine.transition).toHaveBeenCalled();
-            expect(State.machine.transition).toHaveBeenCalledWith(State.state.answer);
-        });  
+            expect(State.machine.transition).toHaveBeenCalledWith(
+                State.state.answer
+            );
+        });
 
         it('should transition to the default `action` if there is no choice or next', async () => {
-            await State.transitionOut()
-            expect(State.machine.action).toHaveBeenCalled();            
+            await State.transitionOut();
+            expect(State.machine.action).toHaveBeenCalled();
         });
-          
     });
 
     describe('`executeState`', () => {
-
         let answer = 'executeState answer';
 
         beforeAll(() => {
-
             Prompt.question = jest.fn().mockImplementation(() => {
-                const promise = new Promise(resolve => {
+                const promise = new Promise((resolve) => {
                     resolve(answer);
                 });
 
                 return promise;
-            })
-
-        })
+            });
+        });
 
         beforeEach(() => {
-            State.machine.transition('Welcome')
-            State.transitionIn = jest.fn()
-            State.transitionOut = jest.fn()
-        })
+            State.machine.transition('Welcome');
+            State.transitionIn = jest.fn();
+            State.transitionOut = jest.fn();
+        });
 
         it('should should call `transitionIn` and `transitionOut`', async () => {
-            await State.executeState()
+            await State.executeState();
             expect(State.transitionIn).toHaveBeenCalled();
             expect(State.transitionOut).toHaveBeenCalled();
         });
@@ -126,7 +123,6 @@ describe('`State Service`', () => {
         });
 
         describe('for `StateTypes.Question`', () => {
-
             it('should call `Prompt.question`', async () => {
                 await State.executeState();
                 expect(Prompt.question).toHaveBeenCalled();
@@ -136,29 +132,22 @@ describe('`State Service`', () => {
                 await State.executeState();
                 expect(State.state.answer).toBe(answer);
             });
-
         });
 
         describe('for `StateTypes.Statement`', () => {
-
             it('should wait until the bot is finished speaking before transitioning', (done) => {
-
                 State.transitionOut = jest.fn().mockImplementation(() => {
                     expect(Voice.isSpeaking).toBeFalsy();
-                    done()
-                })
+                    done();
+                });
 
-                Voice.isSpeaking = true
+                Voice.isSpeaking = true;
                 jest.runOnlyPendingTimers();
                 jest.advanceTimersByTime(500);
                 Voice.isSpeaking = false;
                 jest.advanceTimersByTime(500);
                 expect(State.transitionOut).toHaveBeenCalled();
-
             });
-
         });
-
     });
-
 });

@@ -1,5 +1,5 @@
-import { State } from "./state.model";
+import { State } from './state.model';
 
 export interface StateList {
-    [index: string]: State
+    [index: string]: State;
 }
