@@ -9,10 +9,8 @@ class HelperService {
 
     getRandomReply(key) {
         const len = this.conversations[key].questions.length;
-        console.log(this.conversations);
-        return this.conversations[key].questions[
-            Math.floor(Math.random() * len - 1)
-        ];
+        const index = len > 1 ? Math.floor(Math.random() * len) : 0;
+        return this.conversations[key].questions[index];
     }
 }
 
