@@ -1,10 +1,10 @@
 import { sm } from 'jssm';
-import { InfoState, MenuState } from './conversations';
+import { InfoState, MenuState } from './states';
 import { StateList } from './models';
 import { StateService } from './services';
 
 const FSM = sm`
-Welcome 'next' -> WhatColor 'next' -> WhichLocation 'next' -> Menu;
+Welcome 'next' -> Color 'next' -> Location 'next' -> Menu;
 Menu <-> Weather;
 Menu <-> Name;
 Menu <-> Colour;
@@ -13,7 +13,7 @@ Menu -> Goodbye;
 
 const states: StateList = {
     ...InfoState,
-    ...MenuState
-}
+    ...MenuState,
+};
 
 const StateManager = new StateService(FSM, states);
