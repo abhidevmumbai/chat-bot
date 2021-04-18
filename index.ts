@@ -2,7 +2,7 @@ import { sm } from 'jssm';
 
 import { StateTypes } from './enums';
 import { StateList } from './models';
-import { Data, HttpService, Prompt, StateService } from './services';
+import { Data, Http, Prompt, StateService } from './services';
 
 const FSM = sm`
 Welcome 'next' -> WhatColor 'next' -> WhichLocation 'next' -> Menu;
@@ -58,9 +58,9 @@ const states: StateList = {
     'Weather': {
         type: StateTypes.Statement,
         next: "Menu",
-        before: async() => {
+        before: async () => {
             const location = Data.get('location');
-            const weather = await HttpService.getWeatherByLocation(location);
+            const weather = await Http.getWeatherByLocation(location);
             Data.set('temperature', weather);
             return;
         },
@@ -72,7 +72,7 @@ const states: StateList = {
     },
     'Goodbye': {
         type: StateTypes.Statement,
-        text: () => "Ok. See you.", 
+        text: () => "Ok. See you.",
         after: () => {
             Prompt.close();
             process.exit();
