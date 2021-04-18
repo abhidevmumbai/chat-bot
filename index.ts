@@ -1,12 +1,11 @@
 import { sm } from 'jssm';
-import axios, { AxiosRequestConfig } from 'axios';
 
 import { StateTypes } from './enums';
 import { StateList } from './models';
-import { Data, Prompt, StateService } from './services';
+import { Data, HttpService, Prompt, StateService } from './services';
 
 const FSM = sm`
-Welcome 'next' -> Authentication 'next' -> Menu;
+Welcome 'next' -> WhatColor 'next' -> WhichLocation 'next' -> Menu;
 Menu <-> Weather;
 Menu <-> Name;
 Menu <-> Colour;
@@ -21,11 +20,18 @@ const states: StateList = {
             Data.set('name', state.answer);
         }
     },
-    'Authentication': {
+    'WhatColor': {
         type: StateTypes.Question,
         text: () => "What is your favourite colour?",
         after: (state) => {
             Data.set('colour', state.answer);
+        }
+    },
+    'WhichLocation': {
+        type: StateTypes.Question,
+        text: () => "Which city/country are you from?",
+        after: (state) => {
+            Data.set('location', state.answer);
         }
     },
     'Menu': {
@@ -53,27 +59,15 @@ const states: StateList = {
         type: StateTypes.Statement,
         next: "Menu",
         before: async() => {
-            const options: AxiosRequestConfig = {
-                method: 'GET',
-                url: 'https://community-open-weather-map.p.rapidapi.com/weather',
-                params: {
-                    q: 'Toronto',
-                    units: 'metric'
-                },
-                headers: {
-                    'x-rapidapi-key': '17e5d1c9a4msh9626219b27e0824p1a0965jsn0f56fbb373c6',
-                    'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com'
-                }
-            };
-
-            const response = await axios.request(options);
-            const weather = response.data;
-            Data.set('temperature', weather.main.temp)
+            const location = Data.get('location');
+            const weather = await HttpService.getWeatherByLocation(location);
+            Data.set('temperature', weather);
             return;
         },
         text: () => {
             const temperature = Data.get('temperature');
-            return `The weather for Toronto right now is ${temperature} celsius`
+            const location = Data.get('location');
+            return `The weather for ${location} right now is ${temperature} celsius`
         }
     },
     'Goodbye': {

@@ -21,7 +21,7 @@ describe('`State Service`', () => {
     })
 
     beforeEach(() => {
-        const FSM = sm`Welcome 'next' <-> Authentication 'next' <-> Menu;`;
+        const FSM = sm`Welcome 'next' <-> WhatColor 'next' <-> Menu;`;
         const states: StateList = {
             'Welcome': {
                 type: StateTypes.Question,
@@ -29,7 +29,7 @@ describe('`State Service`', () => {
                 text: jest.fn().mockReturnValue('hello'),
                 after: jest.fn()
             },
-            'Authentication': {
+            'WhatColor': {
                 type: StateTypes.Statement,
                 before: jest.fn(),
                 text: jest.fn().mockReturnValue('hello'),
