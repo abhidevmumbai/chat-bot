@@ -27,16 +27,16 @@ export class StateService {
         Voice.speak(phrase)
 
 
-        if (this.state.type === StateTypes.Statement){
+        if (this.state.type === StateTypes.Statement) {
             Prompt.write(phrase);
             let interval = setInterval(() => {
-                 if (!Voice.isSpeaking) {
+                if (!Voice.isSpeaking) {
                     clearInterval(interval);
                     this.transitionOut();
                 }
             }, 1000);
 
-        } else if (this.state.type === StateTypes.Question){
+        } else if (this.state.type === StateTypes.Question) {
             answer = await Prompt.question(phrase) as string
             Voice.stop();
             this.state.answer = answer;
@@ -59,7 +59,7 @@ export class StateService {
 
         if (this.state.next) {
             this.machine.transition(this.state.next);
-        } else if (this.state.choices && this.state.choices.includes(this.state.answer)) {
+        } else if (this.state.choices && this.isInChoices(this.state.choices, this.state.answer)) {
             this.machine.transition(this.state.answer);
         } else {
             this.machine.action('next');
@@ -69,4 +69,8 @@ export class StateService {
 
     }
 
+    isInChoices(choices, answer) {
+        const filtered = choices.filter(item => answer.toLowerCase() === item.toLowerCase());
+        return filtered.length > 0;
+    }
 }
