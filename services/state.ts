@@ -1,7 +1,12 @@
 import { Voice, Prompt } from '.';
 import { StateTypes } from '../enums';
 import { StateList, State } from '../models';
-
+const choicesMap = {
+    name: { text: "Name", value: "name" },
+    colour: { text: "Colour", value: "colour" },
+    weather: { text: "Weather", value: "weather" },
+    goodbye: { text: "Goodbye", value: "goodbye" }
+};
 export class StateService {
 
     machine: any;
@@ -59,18 +64,20 @@ export class StateService {
 
         if (this.state.next) {
             this.machine.transition(this.state.next);
-        } else if (this.state.choices && this.isInChoices(this.state.choices, this.state.answer)) {
-            this.machine.transition(this.state.answer);
+        } else if (this.state.choices) {
+            const matchingChoice = this.getMatchingChoice(this.state.choices, this.state.answer);
+            if (matchingChoice.length > 0) {
+                this.machine.transition(matchingChoice[0]);
+            }
         } else {
             this.machine.action('next');
         }
 
-        this.executeState()
-
+        this.executeState();
     }
 
-    isInChoices(choices, answer) {
+    getMatchingChoice(choices, answer) {
         const filtered = choices.filter(item => answer.toLowerCase() === item.toLowerCase());
-        return filtered.length > 0;
+        return filtered;
     }
 }
