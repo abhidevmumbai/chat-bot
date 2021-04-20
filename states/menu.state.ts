@@ -41,7 +41,6 @@ export const MenuState = {
     },
     Movie: {
         type: StateTypes.Statement,
-        next: 'MovieMenu',
         text: () => {
             return `Cool, let me ask you a few questions?`;
         },

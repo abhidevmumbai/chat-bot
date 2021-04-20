@@ -10,8 +10,8 @@ Menu <-> Weather;
 Menu <-> Genre;
 Menu <-> Name;
 Menu <-> Colour;
-Menu -> Movie;
-Movie 'next' -> MovieMenu;
+Menu -> Movie 'next' -> Genres;
+Genres 'next' -> Actor 'next' -> MovieList 'next' -> MoreMovies;
 Menu -> Goodbye;
 `;
 
