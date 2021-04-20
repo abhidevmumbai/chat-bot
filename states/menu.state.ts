@@ -1,11 +1,12 @@
-import { StateTypes } from '../enums';
 import { DataService, HttpService, PromptService } from '../services';
+
+import { StateTypes } from '../enums';
 
 export const MenuState = {
     Menu: {
         type: StateTypes.Question,
         text: () => 'What can I help you with today?',
-        choices: ['Name', 'Colour', 'Weather', 'Genre', 'Goodbye'],
+        choices: ['Name', 'Colour', 'Weather', 'Movie', 'Goodbye'],
     },
     Name: {
         type: StateTypes.Statement,
@@ -38,17 +39,11 @@ export const MenuState = {
             return `The weather for ${location} right now is ${temperature} celsius`;
         },
     },
-    Genre: {
+    Movie: {
         type: StateTypes.Statement,
-        next: 'Menu',
-        before: async () => {
-            const genres = await HttpService.getMovieGenres();
-            DataService.set('genres', genres);
-            return;
-        },
+        next: 'MovieMenu',
         text: () => {
-            const genres = DataService.get('genres');
-            return `The movie genres are "${genres}"`;
+            return `Cool, let me ask you a few questions?`;
         },
     },
     Goodbye: {
