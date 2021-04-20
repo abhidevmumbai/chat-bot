@@ -46,8 +46,50 @@ class Http {
         };
 
         const response = await axios.request(options);
-        let genres = response.data.genres.map((item) => item.name);
-        return genres.join(', ');
+        let genres = response.data.genres;
+        return genres;
+    }
+
+    async getActorIdByName(name) {
+        const options: AxiosRequestConfig = {
+            method: 'GET',
+            url: `${this.movieApi.url}/3/search/person`,
+            params: {
+                api_key: this.movieApi.key,
+                language: this.movieApi.language,
+                query: name,
+                page: 1,
+            },
+        };
+
+        const response = await axios.request(options);
+        let actor = response.data.results
+            ? {
+                  name: response.data.results[0].name,
+                  id: response.data.results[0].id,
+              }
+            : null;
+        return actor;
+    }
+
+    async getMovieRecommendations(genreId = null, actorId = null) {
+        const options: AxiosRequestConfig = {
+            method: 'GET',
+            url: `${this.movieApi.url}/3/discover/movie`,
+            params: {
+                api_key: this.movieApi.key,
+                language: this.movieApi.language,
+                sort_by: 'popularity.desc',
+                with_cast: actorId,
+                with_genres: genreId,
+                page: 1,
+            },
+        };
+
+        const response = await axios.request(options);
+        let movies = response.data.results;
+        let currentPage = response.data.page;
+        return movies;
     }
 }
 
