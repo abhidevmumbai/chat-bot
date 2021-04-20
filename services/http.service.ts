@@ -63,7 +63,7 @@ class Http {
         };
 
         const response = await axios.request(options);
-        let actor = response.data.results
+        let actor = response.data.results.length
             ? {
                   name: response.data.results[0].name,
                   id: response.data.results[0].id,

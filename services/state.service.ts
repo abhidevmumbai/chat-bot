@@ -49,14 +49,12 @@ export class StateService {
     }
 
     async transitionIn() {
-        console.log('transitionIn', this.state);
         if (this.state.before) {
             await this.state.before();
         }
     }
 
     async transitionOut() {
-        console.log('transitionOut', this.state);
         if (this.state.after) {
             await this.state.after(this.state);
         }
