@@ -5,7 +5,7 @@ export const MenuState = {
     Menu: {
         type: StateTypes.Question,
         text: () => 'What can I help you with today?',
-        choices: ['Name', 'Colour', 'Weather', 'Goodbye'],
+        choices: ['Name', 'Colour', 'Weather', 'Genre', 'Goodbye'],
     },
     Name: {
         type: StateTypes.Statement,
@@ -36,6 +36,19 @@ export const MenuState = {
             const temperature = Data.get('temperature');
             const location = Data.get('location');
             return `The weather for ${location} right now is ${temperature} celsius`;
+        },
+    },
+    Genre: {
+        type: StateTypes.Statement,
+        next: 'Menu',
+        before: async () => {
+            const genres = await Http.getMovieGenres();
+            Data.set('genres', genres);
+            return;
+        },
+        text: () => {
+            const genres = Data.get('genres');
+            return `The movie genres are "${genres}"`;
         },
     },
     Goodbye: {

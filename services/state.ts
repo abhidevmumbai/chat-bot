@@ -5,6 +5,7 @@ const choicesMap = {
     name: { text: 'Name', value: 'name' },
     colour: { text: 'Colour', value: 'colour' },
     weather: { text: 'Weather', value: 'weather' },
+    genre: { text: 'Genre', value: 'genre' },
     goodbye: { text: 'Goodbye', value: 'goodbye' },
 };
 export class StateService {

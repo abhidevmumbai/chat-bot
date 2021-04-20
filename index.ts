@@ -6,6 +6,7 @@ import { StateService } from './services';
 const FSM = sm`
 Welcome 'next' -> Color 'next' -> Location 'next' -> Menu;
 Menu <-> Weather;
+Menu <-> Genre;
 Menu <-> Name;
 Menu <-> Colour;
 Menu -> Goodbye;
