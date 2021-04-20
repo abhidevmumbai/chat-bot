@@ -1,6 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { HttpService } from './http.service';
-jest.mock('axios');
 
 describe('`Http Service`', () => {
     it('should offer `getWeatherByLocation`', () => {
@@ -8,14 +7,13 @@ describe('`Http Service`', () => {
     });
 
     it('should get weather by location', async () => {
-        const weather = await HttpService.getWeatherByLocation('Toronto');
         const temperature = '15';
-
-        axios.request = jest
-            .fn()
-            .mockImplementationOnce(() =>
-                Promise.resolve({ data: { main: { temp: temperature } } })
-            );
+        const response = {
+            data: { main: { temp: temperature } },
+        };
+        const mock = jest.spyOn(axios, 'request');
+        mock.mockReturnValueOnce(Promise.resolve(response));
+        const weather = await HttpService.getWeatherByLocation('Toronto');
         expect(weather).toEqual(temperature);
     });
 });
