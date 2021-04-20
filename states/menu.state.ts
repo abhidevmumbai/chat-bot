@@ -27,16 +27,29 @@ export const MenuState = {
     Weather: {
         type: StateTypes.Statement,
         next: 'Menu',
+        retry: 'Location',
+        error: false,
         before: async () => {
             const location = DataService.get('location');
-            const weather = await HttpService.getWeatherByLocation(location);
-            DataService.set('temperature', weather);
+            try {
+                const weather = await HttpService.getWeatherByLocation(
+                    location
+                );
+                DataService.set('temperature', weather);
+                MenuState.Weather.error = false;
+            } catch (e) {
+                MenuState.Weather.error = true;
+            }
             return;
         },
         text: () => {
-            const temperature = DataService.get('temperature');
-            const location = DataService.get('location');
-            return `The weather for ${location} right now is ${temperature} celsius`;
+            if (!MenuState.Weather.error) {
+                const temperature = DataService.get('temperature');
+                const location = DataService.get('location');
+                return `The weather for ${location} right now is ${temperature} celsius`;
+            } else {
+                return `Some error occured`;
+            }
         },
     },
     Movie: {

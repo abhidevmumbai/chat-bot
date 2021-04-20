@@ -7,13 +7,14 @@ import { sm } from 'jssm';
 const FSM = sm`
 Welcome 'next' -> Color 'next' -> Location 'next' -> LikeMovies 'next' -> Menu;
 Menu <-> Weather;
+Weather 'retry' -> Location;
 Menu <-> Genre;
 Menu <-> Name;
 Menu <-> Colour;
 Menu -> Movie;
 Movie 'next' -> Genres 'next' -> Actor 'next' -> MovieList;
-MovieList 'next' -> StartOver -> Genres;
-StartOver 'next' -> Menu;
+MovieList 'next' -> StartOver 'next' -> Genres;
+StartOver 'retry' -> Menu;
 Menu -> Goodbye;
 `;
 

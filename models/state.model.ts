@@ -8,4 +8,6 @@ export interface State {
     choices?: string[];
     next?: string;
     answer?: string;
+    retry?: string;
+    error?: boolean;
 }

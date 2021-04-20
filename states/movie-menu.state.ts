@@ -67,6 +67,7 @@ export const MovieMenuState = {
     StartOver: {
         type: StateTypes.Question,
         next: 'Genres',
+        retry: 'Menu',
         text: () => HelperService.getRandomReply('StartOver'),
         after: (state) => {
             DataService.set('startOver', state.answer);

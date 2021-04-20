@@ -60,7 +60,9 @@ export class StateService {
         if (this.state.after) {
             await this.state.after(this.state);
         }
-
+        if (!this.state.answer && this.state.error) {
+            this.machine.transition(this.state.retry);
+        }
         if (this.state.next) {
             this.machine.transition(this.state.next);
         } else if (this.state.choices) {
