@@ -1,11 +1,13 @@
-import { VoiceService, PromptService } from '.';
+import { PromptService, VoiceService } from '.';
+import { State, StateList } from '../models';
+
 import { StateTypes } from '../enums';
-import { StateList, State } from '../models';
+
 const choicesMap = {
     name: { text: 'Name', value: 'name' },
     colour: { text: 'Colour', value: 'colour' },
     weather: { text: 'Weather', value: 'weather' },
-    genre: { text: 'Genre', value: 'genre' },
+    genre: { text: 'Movie', value: 'movie' },
     goodbye: { text: 'Goodbye', value: 'goodbye' },
 };
 export class StateService {
@@ -47,12 +49,14 @@ export class StateService {
     }
 
     async transitionIn() {
+        console.log('transitionIn', this.state);
         if (this.state.before) {
             await this.state.before();
         }
     }
 
     async transitionOut() {
+        console.log('transitionOut', this.state);
         if (this.state.after) {
             await this.state.after(this.state);
         }
