@@ -1,5 +1,5 @@
 import { StateTypes } from '../enums';
-import { Data, Http, Prompt } from '../services';
+import { DataService, HttpService, PromptService } from '../services';
 
 export const MenuState = {
     Menu: {
@@ -11,7 +11,7 @@ export const MenuState = {
         type: StateTypes.Statement,
         next: 'Menu',
         text: () => {
-            const name = Data.get('name');
+            const name = DataService.get('name');
             return `Your name is ${name}, of course.`;
         },
     },
@@ -19,7 +19,7 @@ export const MenuState = {
         type: StateTypes.Statement,
         next: 'Menu',
         text: () => {
-            const colour = Data.get('colour');
+            const colour = DataService.get('colour');
             return `Your favourite colour is ${colour}, of course.`;
         },
     },
@@ -27,14 +27,14 @@ export const MenuState = {
         type: StateTypes.Statement,
         next: 'Menu',
         before: async () => {
-            const location = Data.get('location');
-            const weather = await Http.getWeatherByLocation(location);
-            Data.set('temperature', weather);
+            const location = DataService.get('location');
+            const weather = await HttpService.getWeatherByLocation(location);
+            DataService.set('temperature', weather);
             return;
         },
         text: () => {
-            const temperature = Data.get('temperature');
-            const location = Data.get('location');
+            const temperature = DataService.get('temperature');
+            const location = DataService.get('location');
             return `The weather for ${location} right now is ${temperature} celsius`;
         },
     },
@@ -42,12 +42,12 @@ export const MenuState = {
         type: StateTypes.Statement,
         next: 'Menu',
         before: async () => {
-            const genres = await Http.getMovieGenres();
-            Data.set('genres', genres);
+            const genres = await HttpService.getMovieGenres();
+            DataService.set('genres', genres);
             return;
         },
         text: () => {
-            const genres = Data.get('genres');
+            const genres = DataService.get('genres');
             return `The movie genres are "${genres}"`;
         },
     },
@@ -55,7 +55,7 @@ export const MenuState = {
         type: StateTypes.Statement,
         text: () => 'Ok. See you.',
         after: () => {
-            Prompt.close();
+            PromptService.close();
             process.exit();
         },
     },

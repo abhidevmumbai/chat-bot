@@ -1,6 +1,6 @@
 import { WelcomeConversation, InfoConversation } from '../conversations';
 
-class HelperService {
+class Helper {
     private conversations: {};
 
     constructor() {
@@ -14,4 +14,4 @@ class HelperService {
     }
 }
 
-export const Helper = new HelperService();
+export const HelperService = new Helper();

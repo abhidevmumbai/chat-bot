@@ -1,4 +1,4 @@
-import { Voice, Prompt } from '.';
+import { VoiceService, PromptService } from '.';
 import { StateTypes } from '../enums';
 import { StateList, State } from '../models';
 const choicesMap = {
@@ -28,19 +28,19 @@ export class StateService {
         await this.transitionIn();
 
         const phrase = this.state.text();
-        Voice.speak(phrase);
+        VoiceService.speak(phrase);
 
         if (this.state.type === StateTypes.Statement) {
-            Prompt.write(phrase);
+            PromptService.write(phrase);
             let interval = setInterval(() => {
-                if (!Voice.isSpeaking) {
+                if (!VoiceService.isSpeaking) {
                     clearInterval(interval);
                     this.transitionOut();
                 }
             }, 1000);
         } else if (this.state.type === StateTypes.Question) {
-            answer = (await Prompt.question(phrase)) as string;
-            Voice.stop();
+            answer = (await PromptService.question(phrase)) as string;
+            VoiceService.stop();
             this.state.answer = answer;
             this.transitionOut();
         }

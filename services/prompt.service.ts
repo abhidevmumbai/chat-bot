@@ -1,6 +1,6 @@
 import * as readline from 'readline';
 
-export class PromptService {
+export class Prompt {
     interface: any;
 
     constructor() {
@@ -27,4 +27,4 @@ export class PromptService {
     }
 }
 
-export const Prompt = new PromptService();
+export const PromptService = new Prompt();

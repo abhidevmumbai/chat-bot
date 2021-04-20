@@ -2,7 +2,7 @@ jest.mock('readline');
 jest.useFakeTimers();
 
 import { sm } from 'jssm';
-import { StateService, Prompt, Voice } from '.';
+import { StateService, PromptService, VoiceService } from '.';
 import { StateTypes } from '../enums';
 import { StateList } from '../models';
 
@@ -10,13 +10,13 @@ describe('`State Service`', () => {
     let State: StateService;
 
     beforeAll(() => {
-        Prompt.interface = {
+        PromptService.interface = {
             question: jest.fn().mockReturnValue('hello'),
             close: jest.fn(),
         };
 
-        Voice.speak = jest.fn();
-        Voice.stop = jest.fn();
+        VoiceService.speak = jest.fn();
+        VoiceService.stop = jest.fn();
     });
 
     beforeEach(() => {
@@ -96,7 +96,7 @@ describe('`State Service`', () => {
         let answer = 'executeState answer';
 
         beforeAll(() => {
-            Prompt.question = jest.fn().mockImplementation(() => {
+            PromptService.question = jest.fn().mockImplementation(() => {
                 const promise = new Promise((resolve) => {
                     resolve(answer);
                 });
@@ -119,13 +119,13 @@ describe('`State Service`', () => {
 
         it('should should call `Voice.speak`', async () => {
             await State.executeState();
-            expect(Voice.speak).toHaveBeenCalled();
+            expect(VoiceService.speak).toHaveBeenCalled();
         });
 
         describe('for `StateTypes.Question`', () => {
             it('should call `Prompt.question`', async () => {
                 await State.executeState();
-                expect(Prompt.question).toHaveBeenCalled();
+                expect(PromptService.question).toHaveBeenCalled();
             });
 
             it('should store the answer on the state', async () => {
@@ -137,14 +137,14 @@ describe('`State Service`', () => {
         describe('for `StateTypes.Statement`', () => {
             it('should wait until the bot is finished speaking before transitioning', (done) => {
                 State.transitionOut = jest.fn().mockImplementation(() => {
-                    expect(Voice.isSpeaking).toBeFalsy();
+                    expect(VoiceService.isSpeaking).toBeFalsy();
                     done();
                 });
 
-                Voice.isSpeaking = true;
+                VoiceService.isSpeaking = true;
                 jest.runOnlyPendingTimers();
                 jest.advanceTimersByTime(500);
-                Voice.isSpeaking = false;
+                VoiceService.isSpeaking = false;
                 jest.advanceTimersByTime(500);
                 expect(State.transitionOut).toHaveBeenCalled();
             });

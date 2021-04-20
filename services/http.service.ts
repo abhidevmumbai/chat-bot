@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-class HttpService {
+class Http {
     private weatherAPI;
     private movieApi;
 
@@ -51,4 +51,4 @@ class HttpService {
     }
 }
 
-export const Http = new HttpService();
+export const HttpService = new Http();

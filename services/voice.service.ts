@@ -1,6 +1,6 @@
 const say = require('say');
 
-export class VoiceService {
+export class Voice {
     isSpeaking: boolean;
     activePhrase: string;
 
@@ -21,4 +21,4 @@ export class VoiceService {
     }
 }
 
-export const Voice = new VoiceService();
+export const VoiceService = new Voice();

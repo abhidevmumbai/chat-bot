@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { Http } from './http';
+import { HttpService } from './http.service';
 jest.mock('axios');
 
 describe('`Http Service`', () => {
     it('should offer `getWeatherByLocation`', () => {
-        expect(Http.getWeatherByLocation).toBeDefined();
+        expect(HttpService.getWeatherByLocation).toBeDefined();
     });
 
     it('should get weather by location', async () => {
-        const weather = await Http.getWeatherByLocation('Toronto');
+        const weather = await HttpService.getWeatherByLocation('Toronto');
         const temperature = '15';
 
         axios.request = jest

@@ -1,4 +1,4 @@
-export class DataService {
+export class Data {
     store: Record<string, any>;
 
     constructor() {
@@ -6,4 +6,4 @@ export class DataService {
     }
 }
 
-export const Data = new DataService().store;
+export const DataService = new Data().store;
