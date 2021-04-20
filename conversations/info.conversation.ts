@@ -1,15 +1,21 @@
 export const InfoConversation = {
     Color: {
-        questions: ['What is your favourite colour?'],
+        replies: ['What is your favourite colour?'],
     },
     Location: {
-        questions: [
+        replies: [
             'Which city/country are you from?',
             'Where are you from?',
             'Where are you located',
         ],
     },
+    LikeMovies: {
+        replies: [
+            'Do you like movies?',
+            'Would you like movie recommendations?',
+        ],
+    },
     Goodbye: {
-        questions: ['See you later!', 'Goodbye!', 'Have a good day!'],
+        replies: ['See you later!', 'Goodbye!', 'Have a good day!'],
     },
 };
