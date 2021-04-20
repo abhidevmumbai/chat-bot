@@ -54,6 +54,7 @@ export const MovieMenuState = {
     },
     MoreMovies: {
         type: StateTypes.Question,
+        next: 'MovieList',
         text: () => {
             const movies = DataService.get('movies');
             return `The movies are "${movies}"`;
@@ -65,8 +66,7 @@ export const MovieMenuState = {
     },
     StartOver: {
         type: StateTypes.Question,
-        next: 'MovieMenu',
-        no: 'Menu',
+        next: 'Genres',
         text: () => HelperService.getRandomReply('StartOver'),
         after: (state) => {
             DataService.set('startOver', state.answer);
