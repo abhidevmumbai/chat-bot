@@ -1,3 +1,4 @@
+import { Actor, Genre, MovieList } from '../models';
 import axios, { AxiosRequestConfig } from 'axios';
 
 class Http {
@@ -17,7 +18,7 @@ class Http {
         };
     }
 
-    async getWeatherByLocation(location) {
+    async getWeatherByLocation(location): Promise<string> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: this.weatherAPI.url,
@@ -35,7 +36,7 @@ class Http {
         return response.data.main.temp;
     }
 
-    async getMovieGenres() {
+    async getMovieGenres(): Promise<Genre> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/genre/movie/list`,
@@ -50,7 +51,7 @@ class Http {
         return genres;
     }
 
-    async getActorIdByName(name) {
+    async getActorByName(name): Promise<Actor> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/search/person`,
@@ -72,7 +73,10 @@ class Http {
         return actor;
     }
 
-    async getMovieRecommendations(genreId = null, actorId = null) {
+    async getMovieRecommendations(
+        genreId = null,
+        actorId = null
+    ): Promise<MovieList> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/discover/movie`,

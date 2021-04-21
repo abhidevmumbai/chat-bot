@@ -52,7 +52,7 @@ describe('`Http Service`', () => {
     });
 
     it('should offer `getActorIdByName`', () => {
-        expect(HttpService.getActorIdByName).toBeDefined();
+        expect(HttpService.getActorByName).toBeDefined();
     });
 
     it('should get actor id by name', async () => {
@@ -62,7 +62,7 @@ describe('`Http Service`', () => {
         };
         const mock = jest.spyOn(axios, 'request');
         mock.mockReturnValueOnce(Promise.resolve(response));
-        const actor = await HttpService.getActorIdByName(name);
+        const actor = await HttpService.getActorByName(name);
         expect(actor).toEqual(response.data.results[0]);
     });
 

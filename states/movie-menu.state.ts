@@ -40,7 +40,7 @@ export const MovieMenuState = {
         text: () => HelperService.getRandomReply('Actor'),
         after: async (state) => {
             try {
-                const selectedActor = await HttpService.getActorIdByName(
+                const selectedActor = await HttpService.getActorByName(
                     state.answer
                 );
                 DataService.set('selectedActor', selectedActor);
