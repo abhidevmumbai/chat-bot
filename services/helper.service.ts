@@ -1,13 +1,19 @@
-import { WelcomeConversation, InfoConversation } from '../conversations';
+import {
+    InfoConversation,
+    MenuConversation,
+    WelcomeConversation,
+} from '../conversations';
+
 import { MovieConversation } from '../conversations/movie.conversation';
 
 class Helper {
-    private conversations: {};
+    private conversations;
 
     constructor() {
         this.conversations = {
             ...WelcomeConversation,
             ...InfoConversation,
+            ...MenuConversation,
             ...MovieConversation,
         };
     }

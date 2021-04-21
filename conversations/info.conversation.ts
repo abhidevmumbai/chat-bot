@@ -15,7 +15,4 @@ export const InfoConversation = {
             'Would you like movie recommendations?',
         ],
     },
-    Goodbye: {
-        replies: ['See you later!', 'Goodbye!', 'Have a good day!'],
-    },
 };
