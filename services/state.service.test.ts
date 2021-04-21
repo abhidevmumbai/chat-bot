@@ -1,10 +1,11 @@
 jest.mock('readline');
 jest.useFakeTimers();
 
-import { sm } from 'jssm';
-import { StateService, PromptService, VoiceService } from '.';
-import { StateTypes } from '../enums';
+import { PromptService, StateService, VoiceService } from '.';
+
 import { StateList } from '../models';
+import { StateTypes } from '../enums';
+import { sm } from 'jssm';
 
 describe('`State Service`', () => {
     let State: StateService;
@@ -71,6 +72,18 @@ describe('`State Service`', () => {
             expect(State.machine.transition).toHaveBeenCalled();
             expect(State.machine.transition).toHaveBeenCalledWith(
                 State.state.next
+            );
+        });
+
+        it('should transition to `retry` if there is an error', async () => {
+            State.state.error = true;
+            State.state.retry = 'retry';
+
+            await State.transitionOut();
+
+            expect(State.machine.transition).toHaveBeenCalled();
+            expect(State.machine.transition).toHaveBeenCalledWith(
+                State.state.retry
             );
         });
 

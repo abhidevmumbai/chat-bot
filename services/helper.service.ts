@@ -7,7 +7,7 @@ import {
 import { MovieConversation } from '../conversations/movie.conversation';
 
 class Helper {
-    private conversations;
+    conversations;
 
     constructor() {
         this.conversations = {
