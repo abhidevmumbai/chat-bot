@@ -16,6 +16,8 @@ export const MovieConversation = {
         replies: [
             'Would you like to start over?',
             'Do you want to change your movie preferences?',
+            'Select a different genre?',
+            'Select a different actor/actress?',
         ],
     },
 };

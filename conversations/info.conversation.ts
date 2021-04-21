@@ -1,6 +1,6 @@
 export const InfoConversation = {
     Color: {
-        replies: ['What is your favourite colour?'],
+        replies: ['What is your favourite colour?', 'Favourite colour?'],
     },
     Location: {
         replies: [
