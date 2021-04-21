@@ -1,3 +1,4 @@
-export * from './welcome.conversation';
 export * from './info.conversation';
+export * from './intent';
 export * from './menu.conversation';
+export * from './welcome.conversation';

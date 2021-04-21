@@ -1,8 +1,7 @@
-import { InfoState, MenuState, MovieMenuState } from './states';
-
+import { sm } from 'jssm';
 import { StateList } from './models';
 import { StateService } from './services';
-import { sm } from 'jssm';
+import { InfoState, MenuState, MovieMenuState } from './states';
 
 const FSM = sm`
 Welcome 'next' -> Color 'next' -> Location 'next' -> LikeMovies 'next' -> Menu;
@@ -38,3 +37,4 @@ const states: StateList = {
 };
 
 const StateManager = new StateService(FSM, states);
+// console.log(HelperService.getIntent('tell me a flick'));
