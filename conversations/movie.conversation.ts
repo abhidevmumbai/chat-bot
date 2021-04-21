@@ -1,4 +1,6 @@
-export const MovieConversation = {
+import { Conversation } from '../models';
+
+export const MovieConversation: Conversation = {
     Genre: {
         replies: [
             'What kind of movies do you like?',

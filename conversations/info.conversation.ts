@@ -1,4 +1,6 @@
-export const InfoConversation = {
+import { Conversation } from '../models';
+
+export const InfoConversation: Conversation = {
     Color: {
         replies: ['What is your favourite colour?', 'Favourite colour?'],
     },

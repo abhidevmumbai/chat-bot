@@ -68,8 +68,8 @@ export class StateService {
                 this.state.choices,
                 this.state.answer
             );
-            if (matchingChoice.length > 0) {
-                this.machine.transition(matchingChoice[0]);
+            if (matchingChoice) {
+                this.machine.transition(matchingChoice);
             }
         } else {
             this.machine.action('next');
@@ -78,10 +78,10 @@ export class StateService {
         this.executeState();
     }
 
-    getMatchingChoice(choices, answer) {
+    getMatchingChoice(choices, answer): string | null {
         const filtered = choices.filter(
             (item) => answer.toLowerCase() === item.toLowerCase()
         );
-        return filtered;
+        return filtered[0] || null;
     }
 }
