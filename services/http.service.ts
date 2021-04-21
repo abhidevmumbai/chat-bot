@@ -88,7 +88,6 @@ class Http {
 
         const response = await axios.request(options);
         let movies = response.data.results;
-        let currentPage = response.data.page;
         return movies;
     }
 }
