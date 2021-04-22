@@ -1,11 +1,11 @@
 jest.mock('readline');
 jest.useFakeTimers();
 
-import { PromptService, StateService, VoiceService } from '.';
-
-import { StateList } from '../models';
-import { StateTypes } from '../enums';
 import { sm } from 'jssm';
+import { PromptService, StateService, VoiceService } from '.';
+import { StateTypes } from '../enums';
+import { StateList } from '../models';
+import { IntentService } from './intent.service';
 
 describe('`State Service`', () => {
     let State: StateService;
@@ -59,6 +59,14 @@ describe('`State Service`', () => {
             State.machine.action = jest.fn();
         });
 
+        it('should handle intent if there is one', async () => {
+            const spyOn = jest.spyOn(State, 'handleIntent');
+            State.state.answer = 'Name';
+            State.state.isIntent = true;
+            await State.transitionOut();
+            expect(spyOn).toHaveBeenCalled();
+        });
+
         it('should run `after` if there is one', async () => {
             await State.transitionOut();
             expect(State.state.after).toHaveBeenCalled();
@@ -87,21 +95,47 @@ describe('`State Service`', () => {
             );
         });
 
-        it('should transition to a choice it exists in `choices`', async () => {
-            State.state.answer = 'menu1';
-            State.state.choices = ['menu1', 'menu2'];
-
-            await State.transitionOut();
-
-            expect(State.machine.transition).toHaveBeenCalled();
-            expect(State.machine.transition).toHaveBeenCalledWith(
-                State.state.answer
-            );
-        });
-
         it('should transition to the default `action` if there is no choice or next', async () => {
             await State.transitionOut();
             expect(State.machine.action).toHaveBeenCalled();
+        });
+    });
+
+    describe('`handleIntent`', () => {
+        beforeEach(() => {
+            State.machine.transition = jest.fn();
+        });
+
+        it('should run `next` if the intent is `Confirm`', async () => {
+            IntentService.getIntent = jest.fn().mockReturnValue('Confirm');
+            await State.handleIntent();
+            expect(State.machine.transition).toHaveBeenCalled();
+            expect(State.machine.transition).toHaveBeenCalledWith(
+                State.state.next
+            );
+        });
+
+        it('should run `retry` if the intent is `Cancel`', async () => {
+            IntentService.getIntent = jest.fn().mockReturnValue('Cancel');
+            await State.handleIntent();
+            expect(State.machine.transition).toHaveBeenCalled();
+            expect(State.machine.transition).toHaveBeenCalledWith(
+                State.state.retry
+            );
+        });
+
+        it('should transition to `Exit` on `Exit`', async () => {
+            IntentService.getIntent = jest.fn().mockReturnValue('Exit');
+            await State.handleIntent();
+            expect(State.machine.transition).toHaveBeenCalled();
+            expect(State.machine.transition).toHaveBeenCalledWith('Exit');
+        });
+
+        it('should transition to `None` on `None`', async () => {
+            IntentService.getIntent = jest.fn().mockReturnValue('None');
+            await State.handleIntent();
+            expect(State.machine.transition).toHaveBeenCalled();
+            expect(State.machine.transition).toHaveBeenCalledWith('Menu');
         });
     });
 

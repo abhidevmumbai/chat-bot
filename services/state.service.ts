@@ -84,11 +84,4 @@ export class StateService {
                 this.machine.transition(intent);
         }
     }
-
-    getMatchingChoice(choices, answer): string | null {
-        const filtered = choices.filter(
-            (item) => answer.toLowerCase() === item.toLowerCase()
-        );
-        return filtered[0] || null;
-    }
 }
