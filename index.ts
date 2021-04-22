@@ -4,19 +4,20 @@ import { StateService } from './services';
 import { InfoState, MenuState, MovieMenuState } from './states';
 
 const FSM = sm`
-Welcome 'next' -> Color 'next' -> Location 'next' -> LikeMovies 'next' -> Menu;
+Welcome 'next' => Color 'next' => Location 'next' => LikeMovies;
+LikeMovies 'next' => Movies;
+LikeMovies 'retry' -> Menu;
 Menu <-> Weather;
 Weather 'retry' -> Location;
-Menu <-> Genre;
 Menu <-> Name;
 Menu <-> Colour;
 Menu -> Movies;
-Movies 'next' -> Genres 'next' -> Actor 'next' -> MovieList;
+Movies 'next' => Genres 'next' => Actor 'next' => MovieList;
 Genres 'retry' -> StartOver;
 Actor 'retry' -> StartOver;
 MovieList 'next' -> StartOver 'next' -> Genres;
 StartOver 'retry' -> Menu;
-Menu -> Goodbye;
+Menu => Goodbye;
 `;
 
 const states: StateList = {
