@@ -12,13 +12,14 @@ class Intent {
             }
             return false;
         });
-        console.log(input, currentIntent);
+        // console.log(input, currentIntent);
         return currentIntent;
     }
 
     foundIntent(intent, input) {
         let found = Intents[intent].some((phrase) => {
-            return input.includes(phrase);
+            const regex = new RegExp(phrase, 'ig');
+            return regex.test(input);
         });
         return found;
     }

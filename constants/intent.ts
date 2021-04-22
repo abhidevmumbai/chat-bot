@@ -1,5 +1,5 @@
 export const Intents = {
-    Name: ['name', 'I', 'me'],
+    Name: ['name'],
     Colour: ['color', 'colour', 'color'],
     Weather: [
         'weather',

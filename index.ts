@@ -27,4 +27,4 @@ const states: StateList = {
 };
 
 const StateManager = new StateService(FSM, states);
-// console.log(HelperService.getIntent('tell me a flick'));
+// console.log(IntentService.getIntent('recommend me a flick'));
