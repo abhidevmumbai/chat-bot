@@ -1,9 +1,9 @@
 import {
     InfoConversation,
     MenuConversation,
+    MoviesConversation,
     WelcomeConversation,
-} from '../conversations';
-import { MoviesConversation } from '../conversations/movie.conversation';
+} from '../constants';
 
 class Helper {
     conversations;

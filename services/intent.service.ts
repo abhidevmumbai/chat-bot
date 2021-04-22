@@ -1,4 +1,4 @@
-import { Intents } from '../conversations';
+import { Intents } from '../constants';
 
 class Intent {
     constructor() {}
@@ -12,6 +12,7 @@ class Intent {
             }
             return false;
         });
+        console.log(input, currentIntent);
         return currentIntent;
     }
 
