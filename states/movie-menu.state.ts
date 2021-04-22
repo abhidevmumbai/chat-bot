@@ -1,6 +1,5 @@
-import { Data, DataService, HelperService, HttpService } from '../services';
-
 import { StateTypes } from '../enums';
+import { DataService, HelperService, HttpService } from '../services';
 
 export const MovieMenuState = {
     Genres: {
@@ -95,6 +94,7 @@ export const MovieMenuState = {
     },
     StartOver: {
         type: StateTypes.Question,
+        isIntent: true,
         next: 'Genres',
         retry: 'Menu',
         text: () => HelperService.getRandomReply('StartOver'),

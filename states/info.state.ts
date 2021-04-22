@@ -1,6 +1,5 @@
-import { DataService, HelperService } from '../services';
-
 import { StateTypes } from '../enums';
+import { DataService, HelperService } from '../services';
 
 export const InfoState = {
     Welcome: {
@@ -26,6 +25,9 @@ export const InfoState = {
     },
     LikeMovies: {
         type: StateTypes.Question,
+        isIntent: true,
+        next: 'Movies',
+        retry: 'Menu',
         text: () => HelperService.getRandomReply('LikeMovies'),
         after: (state) => {
             DataService.set('likeMovies', state.answer);

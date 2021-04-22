@@ -4,8 +4,12 @@ import { DataService, HttpService, PromptService } from '../services';
 export const MenuState = {
     Menu: {
         type: StateTypes.Question,
-        text: () => 'What can I help you with today?',
-        choices: ['Name', 'Colour', 'Weather', 'Movies', 'Goodbye'],
+        isIntent: true,
+        text: () =>
+            `What can I help you with today? You can ask me about ${MenuState.Menu.choices.join(
+                ', '
+            )}`,
+        choices: ['Name', 'Colour', 'Weather', 'Movies'],
     },
     Name: {
         type: StateTypes.Statement,

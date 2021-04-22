@@ -10,4 +10,5 @@ export interface State {
     answer?: string;
     retry?: string;
     error?: boolean;
+    isIntent?: boolean;
 }

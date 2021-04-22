@@ -1,7 +1,7 @@
 import { PromptService, VoiceService } from '.';
-import { State, StateList } from '../models';
-
 import { StateTypes } from '../enums';
+import { State, StateList } from '../models';
+import { IntentService } from './intent.service';
 
 const choicesMap = {
     name: { text: 'Name', value: 'name' },
@@ -55,27 +55,41 @@ export class StateService {
     }
 
     async transitionOut() {
-        if (this.state.after) {
-            await this.state.after(this.state);
-        }
-        if (!this.state.answer && this.state.error) {
-            this.machine.transition(this.state.retry);
-        }
-        if (this.state.next) {
-            this.machine.transition(this.state.next);
-        } else if (this.state.choices) {
-            const matchingChoice = this.getMatchingChoice(
-                this.state.choices,
-                this.state.answer
-            );
-            if (matchingChoice) {
-                this.machine.transition(matchingChoice);
-            }
+        if (this.state.isIntent) {
+            this.handleIntent();
         } else {
-            this.machine.action('next');
+            if (this.state.after) {
+                await this.state.after(this.state);
+            }
+            if (!this.state.answer && this.state.error) {
+                this.machine.transition(this.state.retry);
+            }
+            if (this.state.next) {
+                this.machine.transition(this.state.next);
+            } else {
+                this.machine.action('next');
+            }
         }
-
         this.executeState();
+    }
+
+    handleIntent() {
+        const intent = IntentService.getIntent(this.state.answer);
+        switch (intent) {
+            case 'Confirm':
+                this.machine.transition(this.state.next);
+                break;
+            case 'Cancel':
+                this.machine.transition(this.state.retry);
+                break;
+            case 'Exit':
+                this.machine.transition('Exit');
+            case 'None':
+                this.machine.transition('Menu');
+                break;
+            default:
+                this.machine.transition(intent);
+        }
     }
 
     getMatchingChoice(choices, answer): string | null {
