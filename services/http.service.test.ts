@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-
+import axios from 'axios';
 import { HttpService } from './http.service';
 
 describe('`Http Service`', () => {

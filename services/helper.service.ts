@@ -3,7 +3,7 @@ import {
     MenuConversation,
     WelcomeConversation,
 } from '../conversations';
-import { MovieConversation } from '../conversations/movie.conversation';
+import { MoviesConversation } from '../conversations/movie.conversation';
 
 class Helper {
     conversations;
@@ -13,7 +13,7 @@ class Helper {
             ...WelcomeConversation,
             ...InfoConversation,
             ...MenuConversation,
-            ...MovieConversation,
+            ...MoviesConversation,
         };
     }
 

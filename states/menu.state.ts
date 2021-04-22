@@ -1,12 +1,11 @@
-import { DataService, HttpService, PromptService } from '../services';
-
 import { StateTypes } from '../enums';
+import { DataService, HttpService, PromptService } from '../services';
 
 export const MenuState = {
     Menu: {
         type: StateTypes.Question,
         text: () => 'What can I help you with today?',
-        choices: ['Name', 'Colour', 'Weather', 'Movie', 'Goodbye'],
+        choices: ['Name', 'Colour', 'Weather', 'Movies', 'Goodbye'],
     },
     Name: {
         type: StateTypes.Statement,
@@ -35,7 +34,7 @@ export const MenuState = {
                 const weather = await HttpService.getWeatherByLocation(
                     location
                 );
-                DataService.set('temperature', weather);
+                DataService.set('weather', weather);
                 MenuState.Weather.error = false;
             } catch (e) {
                 MenuState.Weather.error = true;
@@ -44,15 +43,15 @@ export const MenuState = {
         },
         text: () => {
             if (!MenuState.Weather.error) {
-                const temperature = DataService.get('temperature');
+                const weather = DataService.get('weather');
                 const location = DataService.get('location');
-                return `The weather for ${location} right now is ${temperature} celsius`;
+                return `The weather for ${location} right now is ${weather} celsius`;
             } else {
                 return `Some error occured`;
             }
         },
     },
-    Movie: {
+    Movies: {
         type: StateTypes.Statement,
         text: () => {
             return `Cool, let me ask you a few questions?`;
