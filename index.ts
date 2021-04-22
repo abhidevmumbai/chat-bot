@@ -17,7 +17,7 @@ Genres 'retry' -> StartOver;
 Actor 'retry' -> StartOver;
 MovieList 'next' -> StartOver 'next' -> Genres;
 StartOver 'retry' -> Menu;
-Menu => Goodbye;
+Menu -> Exit;
 `;
 
 const states: StateList = {

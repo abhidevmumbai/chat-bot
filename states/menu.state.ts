@@ -1,5 +1,10 @@
 import { StateTypes } from '../enums';
-import { DataService, HttpService, PromptService } from '../services';
+import {
+    DataService,
+    HelperService,
+    HttpService,
+    PromptService,
+} from '../services';
 
 export const MenuState = {
     Menu: {
@@ -61,9 +66,9 @@ export const MenuState = {
             return `Cool, let me ask you a few questions?`;
         },
     },
-    Goodbye: {
+    Exit: {
         type: StateTypes.Statement,
-        text: () => 'Ok. See you.',
+        text: () => HelperService.getRandomReply('Exit'),
         after: () => {
             PromptService.close();
             process.exit();

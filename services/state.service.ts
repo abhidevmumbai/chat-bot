@@ -3,13 +3,6 @@ import { StateTypes } from '../enums';
 import { State, StateList } from '../models';
 import { IntentService } from './intent.service';
 
-const choicesMap = {
-    name: { text: 'Name', value: 'name' },
-    colour: { text: 'Colour', value: 'colour' },
-    weather: { text: 'Weather', value: 'weather' },
-    genre: { text: 'Movie', value: 'movie' },
-    goodbye: { text: 'Goodbye', value: 'goodbye' },
-};
 export class StateService {
     machine: any;
     states: StateList;
