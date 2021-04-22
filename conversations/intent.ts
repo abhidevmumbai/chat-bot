@@ -1,5 +1,6 @@
 export const Intents = {
-    Color: ['color', 'colour', 'color'],
+    Name: ['name', 'I', 'me'],
+    Colour: ['color', 'colour', 'color'],
     Weather: [
         'weather',
         'temp',
@@ -12,4 +13,7 @@ export const Intents = {
     ],
     Movies: ['movies', 'tv', 'show', 'flick'],
     Cast: ['actor', 'actress', 'cast', 'lead', 'character'],
+    Confirm: ['yes', 'sure', 'ok', 'yup', 'fine'],
+    Cancel: ['no', 'nope', 'cancel', 'continue'],
+    Exit: ['bye', 'exit', 'goodbye', 'cya'],
 };
