@@ -20,7 +20,9 @@ export const MovieMenuState = {
         text: () => {
             if (!MovieMenuState.Genres.error) {
                 let genres = DataService.get('genres');
-                genres = genres.map((item) => item.name).join(',\n');
+                genres = genres
+                    .map((item, index) => `${index}. ${item.name}`)
+                    .join(',\n');
                 const reply = HelperService.getRandomReply('Genre');
                 return `${reply}. Pick something from: \n"${genres}"`;
             } else {
@@ -61,7 +63,6 @@ export const MovieMenuState = {
                     selectedGenre.id,
                     selectedActor.id
                 );
-                // Todo: Handle null/error response
                 DataService.set('movies', movies);
                 MovieMenuState.MovieList.error = false;
             } catch (e) {
@@ -73,7 +74,9 @@ export const MovieMenuState = {
         text: () => {
             if (!MovieMenuState.MovieList.error) {
                 let movies = DataService.get('movies');
-                movies = movies.map((item) => item.original_title).join(',\n');
+                movies = movies
+                    .map((item, index) => `${index}. ${item.original_title}`)
+                    .join(',\n');
                 return `The movies are: \n"${movies}"`;
             } else {
                 return `Some error occured`;
