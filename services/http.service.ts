@@ -75,17 +75,21 @@ class Http {
 
     async getMovieRecommendations(
         genreId = null,
-        actorId = null
+        actorId = null,
+        sortBy = 'popularity.desc',
+        year = null
     ): Promise<MovieList> {
+        console.log(genreId, actorId, sortBy, year);
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/discover/movie`,
             params: {
                 api_key: this.movieApi.key,
                 language: this.movieApi.language,
-                sort_by: 'popularity.desc',
+                sort_by: sortBy,
                 with_cast: actorId,
                 with_genres: genreId,
+                primary_release_year: year,
                 page: 1,
             },
         };

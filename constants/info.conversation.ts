@@ -11,10 +11,4 @@ export const InfoConversation: Conversation = {
             'Where are you located',
         ],
     },
-    LikeMovies: {
-        replies: [
-            'Do you like movies?',
-            'Would you like movie recommendations?',
-        ],
-    },
 };

@@ -1,5 +1,6 @@
-import { StateTypes } from '../enums';
 import { DataService, HelperService, HttpService } from '../services';
+
+import { StateTypes } from '../enums';
 
 export const MovieMenuState = {
     Genres: {
@@ -7,13 +8,15 @@ export const MovieMenuState = {
         error: false,
         retry: 'StartOver',
         before: async () => {
-            try {
-                let genres = await HttpService.getMovieGenres();
-                // Todo: Handle null/error response
-                DataService.set('genres', genres);
-                MovieMenuState.Genres.error = false;
-            } catch (e) {
-                MovieMenuState.Genres.error = true;
+            let genres = DataService.get('genres');
+            if (!genres) {
+                try {
+                    let genres = await HttpService.getMovieGenres();
+                    DataService.set('genres', genres);
+                    MovieMenuState.Genres.error = false;
+                } catch (e) {
+                    MovieMenuState.Genres.error = true;
+                }
             }
             return;
         },
@@ -83,12 +86,55 @@ export const MovieMenuState = {
             }
         },
     },
-    MoreMovies: {
+    WhatMovies: {
         type: StateTypes.Question,
-        next: 'MovieList',
+        isIntent: true,
+        text: () => 'What movies do you like?',
+    },
+    GetMovies: {
+        type: StateTypes.Question,
+        error: false,
+        next: 'WhatMovies',
+        retry: 'StartOver',
+        before: async () => {
+            let genres = DataService.get('genres');
+            if (!genres) {
+                try {
+                    let genreList = await HttpService.getMovieGenres();
+                    DataService.set('genres', genreList);
+                    MovieMenuState.MovieList.error = false;
+                } catch (e) {
+                    MovieMenuState.MovieList.error = true;
+                }
+            }
+            HelperService.setSelectedGenre();
+
+            const selectedGenre = DataService.get('selectedGenre');
+            const sortBy = DataService.get('sortBy');
+            const selectedYear = DataService.get('selectedYear');
+            try {
+                const movies = await HttpService.getMovieRecommendations(
+                    selectedGenre.id,
+                    null,
+                    sortBy,
+                    selectedYear
+                );
+                DataService.set('movies', movies);
+                MovieMenuState.MovieList.error = false;
+            } catch (e) {
+                MovieMenuState.MovieList.error = true;
+            }
+        },
         text: () => {
-            const movies = DataService.get('movies');
-            return `The movies are "${movies}"`;
+            let movies = DataService.get('movies');
+            if (!MovieMenuState.GetMovies.error && movies) {
+                movies = movies
+                    .map((item, index) => `${index}. ${item.original_title}`)
+                    .join(',\n');
+                return `The movies are: \n"${movies}"`;
+            } else {
+                return `Some error occured`;
+            }
         },
         after: () => {
             let currentPage = DataService.get('currentPage');

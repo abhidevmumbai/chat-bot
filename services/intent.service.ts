@@ -17,8 +17,18 @@ class Intent {
     }
 
     foundIntent(intent, input) {
-        let found = Intents[intent].some((regex) => {
-            return regex.test(input);
+        // let found = Intents[intent].some((regex) => {
+        //     return regex.test(input);
+        // });
+        // return found;
+        let found = Intents[intent].patterns.some((regex) => {
+            let exec = regex.exec(input);
+            if (exec?.groups) {
+                Intents[intent].setData(exec.groups);
+                return true;
+            } else {
+                return regex.test(input);
+            }
         });
         return found;
     }

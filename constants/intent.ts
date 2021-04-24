@@ -1,10 +1,53 @@
+import { DataService } from '../services';
+
 export const Intents = {
-    Name: [/name/gi],
-    Colour: [/color|colour|color/gi],
-    Weather: [/weather|temp|temperature|condition|snow|rain|hot|sunny/gi],
-    Movies: [/movies|tv|show|flick/gi],
-    Cast: [/actor|actress|cast|lead|character/gi],
-    Confirm: [/yes|sure|ok|yup|fine/gi],
-    Cancel: [/no|nope|cancel|continue/gi],
-    Exit: [/bye|exit|goodbye|cya'/gi],
+    Name: {
+        patterns: [/.+name.+/i],
+    },
+    Colour: {
+        patterns: [/.+color|colour|color.+/i],
+    },
+    Weather: {
+        patterns: [
+            /.+weather|temp|temperature|condition|snow|rain|hot|sunny.+/i,
+        ],
+    },
+    // Movies: {
+    //     patterns: [/.+movies|tv|show|flick.+/i],
+    // },
+    GetMovies: {
+        patterns: [
+            /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?<type>(movies|flicks|shows)) \w+ (?<year>\d{4})?/i,
+        ],
+        setData: (data) => {
+            console.log('matched groups', data);
+            if (
+                data.category === 'top' ||
+                data.category === 'top rated' ||
+                data.category === 'highest rated'
+            ) {
+                DataService.set('sort_by', 'vote_average.desc');
+            } else if (
+                data.category === 'popular' ||
+                data.category === 'most popular'
+            ) {
+                DataService.set('sort_by', 'popularity.desc');
+            }
+
+            DataService.set('selectedGenreName', data.genre || null);
+            DataService.set('selectedYear', data.year || null);
+        },
+    },
+    Cast: {
+        patterns: [/.+actor|actress|cast|lead|character.+/i],
+    },
+    Confirm: {
+        patterns: [/.+yes|sure|ok|yup|fine.+/i],
+    },
+    Cancel: {
+        patterns: [/.+no|nope|cancel|continue.+/i],
+    },
+    Exit: {
+        patterns: [/.+bye|exit|goodbye|cya'.+/i],
+    },
 };
