@@ -1,7 +1,8 @@
 import { PromptService, VoiceService } from '.';
-import { StateTypes } from '../enums';
 import { State, StateList } from '../models';
+
 import { IntentService } from './intent.service';
+import { StateTypes } from '../enums';
 
 export class StateService {
     machine: any;
@@ -56,8 +57,7 @@ export class StateService {
             }
             if (!this.state.answer && this.state.error) {
                 this.machine.transition(this.state.retry);
-            }
-            if (this.state.next) {
+            } else if (this.state.next) {
                 this.machine.transition(this.state.next);
             } else {
                 this.machine.action('next');

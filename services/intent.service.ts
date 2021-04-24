@@ -23,7 +23,7 @@ class Intent {
         // return found;
         let found = Intents[intent].patterns.some((regex) => {
             let exec = regex.exec(input);
-            if (exec?.groups) {
+            if (exec?.groups && Intents[intent].setData) {
                 Intents[intent].setData(exec.groups);
                 return true;
             } else {

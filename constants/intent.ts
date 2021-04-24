@@ -2,10 +2,10 @@ import { DataService } from '../services';
 
 export const Intents = {
     Name: {
-        patterns: [/.+name.+/i],
+        patterns: [/(.+)?name/i],
     },
     Colour: {
-        patterns: [/.+color|colour|color.+/i],
+        patterns: [/(.+)?color|colour|color/i],
     },
     Weather: {
         patterns: [
