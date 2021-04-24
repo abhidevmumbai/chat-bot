@@ -92,9 +92,9 @@ export const MovieMenuState = {
         text: () => 'What movies do you like?',
     },
     GetMovies: {
-        type: StateTypes.Question,
+        type: StateTypes.Statement,
         error: false,
-        next: 'WhatMovies',
+        next: 'Menu',
         retry: 'StartOver',
         before: async () => {
             let genres = DataService.get('genres');

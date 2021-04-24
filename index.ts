@@ -19,6 +19,7 @@ Actor 'retry' -> StartOver;
 MovieList 'next' -> StartOver;
 StartOver 'next' -> Genres;
 StartOver 'retry' -> Menu;
+StartOver -> Exit;
 Menu -> Exit;
 `;
 

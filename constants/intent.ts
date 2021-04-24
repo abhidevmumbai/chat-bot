@@ -9,7 +9,7 @@ export const Intents = {
     },
     Weather: {
         patterns: [
-            /.+weather|temp|temperature|condition|snow|rain|hot|sunny.+/i,
+            /(.+)?weather|temp|temperature|condition|snow|rain|hot|sunny/i,
         ],
     },
     // Movies: {
