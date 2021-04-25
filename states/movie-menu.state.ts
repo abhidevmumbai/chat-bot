@@ -9,9 +9,10 @@ export const MovieMenuState = {
         retry: 'StartOver',
         before: async () => {
             let genres = DataService.get('genres');
+            let type = DataService.get('type');
             if (!genres) {
                 try {
-                    let genres = await HttpService.getMovieGenres();
+                    let genres = await HttpService.getMovieGenres(type);
                     DataService.set('genres', genres);
                     MovieMenuState.Genres.error = false;
                 } catch (e) {
@@ -33,8 +34,7 @@ export const MovieMenuState = {
             }
         },
         after: (state) => {
-            DataService.set('selectedGenre', state.answer);
-            // Todo: check if the genre entered is correct
+            DataService.set('selectedGenreName', state.answer);
         },
     },
     Actor: {
@@ -54,42 +54,13 @@ export const MovieMenuState = {
             }
         },
     },
-    MovieList: {
-        type: StateTypes.Statement,
-        error: false,
-        retry: 'StartOver',
-        before: async () => {
-            const selectedGenre = DataService.get('selectedGenre');
-            const selectedActor = DataService.get('selectedActor');
-            try {
-                const movies = await HttpService.getMovieRecommendations(
-                    selectedGenre.id,
-                    selectedActor.id
-                );
-                DataService.set('movies', movies);
-                MovieMenuState.MovieList.error = false;
-            } catch (e) {
-                MovieMenuState.MovieList.error = true;
-            }
-
-            return;
-        },
-        text: () => {
-            if (!MovieMenuState.MovieList.error) {
-                let movies = DataService.get('movies');
-                movies = movies
-                    .map((item, index) => `${++index}. ${item.original_title}`)
-                    .join(',\n');
-                return `The movies are: \n${movies}`;
-            } else {
-                return `Some error occured`;
-            }
-        },
-    },
     WhatMovies: {
         type: StateTypes.Question,
         isIntent: true,
-        text: () => 'What movies do you like?',
+        text: () => {
+            let type = DataService.get('type');
+            ('What ${type} do you like? eg. top action ${type} from 2010');
+        },
     },
     GetMovies: {
         type: StateTypes.Statement,
@@ -102,38 +73,46 @@ export const MovieMenuState = {
                 try {
                     let genreList = await HttpService.getMovieGenres();
                     DataService.set('genres', genreList);
-                    MovieMenuState.MovieList.error = false;
+                    MovieMenuState.GetMovies.error = false;
                 } catch (e) {
-                    MovieMenuState.MovieList.error = true;
+                    MovieMenuState.GetMovies.error = true;
                 }
             }
             HelperService.setSelectedGenre();
 
             const selectedGenre = DataService.get('selectedGenre');
+            const selectedActor = DataService.get('selectedActor');
+            const type = DataService.get('type');
             const sortBy = DataService.get('sortBy');
             const selectedYear = DataService.get('selectedYear');
             try {
                 const movies = await HttpService.getMovieRecommendations(
                     selectedGenre.id,
-                    null,
+                    type,
+                    selectedActor.id,
                     sortBy,
                     selectedYear
                 );
                 DataService.set('movies', movies);
-                MovieMenuState.MovieList.error = false;
+                MovieMenuState.GetMovies.error = false;
             } catch (e) {
-                MovieMenuState.MovieList.error = true;
+                MovieMenuState.GetMovies.error = true;
             }
         },
         text: () => {
             let movies = DataService.get('movies');
             if (!MovieMenuState.GetMovies.error && movies) {
                 movies = movies
-                    .map((item, index) => `${index}. ${item.original_title}`)
+                    .map(
+                        (item, index) =>
+                            `${index}. ${
+                                item.original_title || item.original_name
+                            }`
+                    )
                     .join(',\n');
-                return `The movies are: \n"${movies}"`;
+                return `Here you go: \n"${movies}"`;
             } else {
-                return `Some error occured`;
+                return `Sorry, we couldn't find anything...`;
             }
         },
         after: () => {

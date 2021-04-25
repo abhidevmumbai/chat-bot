@@ -36,10 +36,10 @@ class Http {
         return response.data.main.temp;
     }
 
-    async getMovieGenres(): Promise<Genre> {
+    async getMovieGenres(type = 'movie'): Promise<Genre> {
         const options: AxiosRequestConfig = {
             method: 'GET',
-            url: `${this.movieApi.url}/3/genre/movie/list`,
+            url: `${this.movieApi.url}/3/genre/${type}/list`,
             params: {
                 api_key: this.movieApi.key,
                 language: this.movieApi.language,
@@ -75,14 +75,14 @@ class Http {
 
     async getMovieRecommendations(
         genreId = null,
+        type = 'movie',
         actorId = null,
         sortBy = 'popularity.desc',
         year = null
     ): Promise<MovieList> {
-        console.log(genreId, actorId, sortBy, year);
         const options: AxiosRequestConfig = {
             method: 'GET',
-            url: `${this.movieApi.url}/3/discover/movie`,
+            url: `${this.movieApi.url}/3/discover/${type}`,
             params: {
                 api_key: this.movieApi.key,
                 language: this.movieApi.language,

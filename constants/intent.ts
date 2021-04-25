@@ -13,11 +13,19 @@ export const Intents = {
         ],
     },
     Movies: {
-        patterns: [/(.+)?movies|tv|show|flick.+/i],
+        patterns: [/(.+)?recommend (?<type>(movie|tv|show|flick)s?)/i],
+        setData: (data) => {
+            console.log('matched groups', data);
+            if (data.type === 'tv' || data.type === 'shows') {
+                DataService.set('type', 'tv');
+            } else {
+                DataService.set('type', 'movie');
+            }
+        },
     },
     GetMovies: {
         patterns: [
-            /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?:(movies|flicks|shows)) \w+ (?<year>\d{4})?/i,
+            /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?<type>(movie|flick|show)s?) \w+ (?<year>\d{4})?/i,
         ],
         setData: (data) => {
             console.log('matched groups', data);
@@ -35,6 +43,7 @@ export const Intents = {
             }
 
             DataService.set('selectedGenreName', data.genre || null);
+            DataService.set('type', data.type || null);
             DataService.set('selectedYear', data.year || null);
         },
     },
