@@ -59,6 +59,8 @@ export class StateService {
                 this.machine.transition(this.state.retry);
             } else if (this.state.next) {
                 this.machine.transition(this.state.next);
+            } else if (this.state.cancel) {
+                this.machine.transition(this.state.cancel);
             } else {
                 this.machine.action('next');
             }
@@ -73,7 +75,7 @@ export class StateService {
                 this.machine.transition(this.state.next);
                 break;
             case 'Cancel':
-                this.machine.transition(this.state.retry);
+                this.machine.transition(this.state.cancel);
                 break;
             case 'Exit':
                 this.machine.transition('Exit');

@@ -9,6 +9,7 @@ export interface State {
     next?: string;
     answer?: string;
     retry?: string;
+    cancel?: string;
     error?: boolean;
     isIntent?: boolean;
 }
