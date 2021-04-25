@@ -1,10 +1,11 @@
-import { StateTypes } from '../enums';
 import {
     DataService,
     HelperService,
     HttpService,
     PromptService,
 } from '../services';
+
+import { StateTypes } from '../enums';
 
 export const MenuState = {
     Menu: {
@@ -61,9 +62,12 @@ export const MenuState = {
         },
     },
     Movies: {
-        type: StateTypes.Statement,
+        type: StateTypes.Question,
+        isIntent: true,
+        next: 'Genres',
+        cancel: 'WhatMovies',
         text: () => {
-            return `Cool, let me ask you a few questions?`;
+            return `Would you like to set your movie preferences i.e genre or actors?`;
         },
     },
     Exit: {
