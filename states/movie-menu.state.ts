@@ -24,10 +24,10 @@ export const MovieMenuState = {
             if (!MovieMenuState.Genres.error) {
                 let genres = DataService.get('genres');
                 genres = genres
-                    .map((item, index) => `${index}. ${item.name}`)
+                    .map((item, index) => `${++index}. ${item.name}`)
                     .join(',\n');
                 const reply = HelperService.getRandomReply('Genre');
-                return `${reply}. Pick something from: \n"${genres}"`;
+                return `${reply}. Pick something from: \n${genres}`;
             } else {
                 return `Some error occured`;
             }
@@ -78,9 +78,9 @@ export const MovieMenuState = {
             if (!MovieMenuState.MovieList.error) {
                 let movies = DataService.get('movies');
                 movies = movies
-                    .map((item, index) => `${index}. ${item.original_title}`)
+                    .map((item, index) => `${++index}. ${item.original_title}`)
                     .join(',\n');
-                return `The movies are: \n"${movies}"`;
+                return `The movies are: \n${movies}`;
             } else {
                 return `Some error occured`;
             }
