@@ -93,7 +93,7 @@ export const MovieMenuState = {
                     sortBy,
                     selectedYear
                 );
-                DataService.set('movies', movies);
+                DataService.set('movies', movies.length || null);
                 MovieMenuState.GetMovies.error = false;
             } catch (e) {
                 MovieMenuState.GetMovies.error = true;
