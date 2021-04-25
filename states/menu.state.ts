@@ -65,7 +65,7 @@ export const MenuState = {
         type: StateTypes.Question,
         isIntent: true,
         next: 'Genres',
-        retry: 'WhatMovies',
+        cancel: 'WhatMovies',
         text: () => {
             const type = DataService.get('type');
             return `Would you like to set your ${type} preferences i.e genre or actors?`;

@@ -57,15 +57,12 @@ export const MovieMenuState = {
     WhatMovies: {
         type: StateTypes.Question,
         isIntent: true,
-        text: () => {
-            let type = DataService.get('type');
-            ('What ${type} do you like? eg. top action ${type} from 2010');
-        },
+        text: () =>
+            'What movies/shows do you like? e.g You can ask "top action movies from 2000"',
     },
     GetMovies: {
         type: StateTypes.Statement,
         error: false,
-        next: 'Menu',
         retry: 'StartOver',
         before: async () => {
             let genres = DataService.get('genres');
@@ -81,15 +78,17 @@ export const MovieMenuState = {
             HelperService.setSelectedGenre();
 
             const selectedGenre = DataService.get('selectedGenre');
+            const selectedGenreId = selectedGenre ? selectedGenre.id : null;
             const selectedActor = DataService.get('selectedActor');
-            const type = DataService.get('type');
-            const sortBy = DataService.get('sortBy');
-            const selectedYear = DataService.get('selectedYear');
+            const selectedActorId = selectedActor ? selectedActor.id : null;
+            const type = DataService.get('type') || null;
+            const sortBy = DataService.get('sortBy') || null;
+            const selectedYear = DataService.get('selectedYear') || null;
             try {
                 const movies = await HttpService.getMovieRecommendations(
-                    selectedGenre.id,
+                    selectedGenreId,
                     type,
-                    selectedActor.id,
+                    selectedActorId,
                     sortBy,
                     selectedYear
                 );
@@ -98,10 +97,11 @@ export const MovieMenuState = {
             } catch (e) {
                 MovieMenuState.GetMovies.error = true;
             }
+            return;
         },
         text: () => {
-            let movies = DataService.get('movies').length || null;
-            if (!MovieMenuState.GetMovies.error && movies) {
+            let movies = DataService.get('movies');
+            if (!MovieMenuState.GetMovies.error && movies && movies.length) {
                 movies = movies
                     .map(
                         (item, index) =>

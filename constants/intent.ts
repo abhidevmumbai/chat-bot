@@ -15,7 +15,6 @@ export const Intents = {
     Movies: {
         patterns: [/(.+)?recommend (?<type>(movie|tv|show|flick)s?)/i],
         setData: (data) => {
-            console.log('matched groups', data);
             if (data.type === 'tv' || data.type === 'shows') {
                 DataService.set('type', 'tv');
             } else {
@@ -28,22 +27,32 @@ export const Intents = {
             /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?<type>(movie|flick|show)s?) \w+ (?<year>\d{4})?/i,
         ],
         setData: (data) => {
-            console.log('matched groups', data);
             if (
                 data.category === 'top' ||
                 data.category === 'top rated' ||
                 data.category === 'highest rated'
             ) {
-                DataService.set('sort_by', 'vote_average.desc');
+                DataService.set('sortBy', 'vote_average.desc');
             } else if (
                 data.category === 'popular' ||
                 data.category === 'most popular'
             ) {
-                DataService.set('sort_by', 'popularity.desc');
+                DataService.set('sortBy', 'popularity.desc');
             }
 
             DataService.set('selectedGenreName', data.genre || null);
-            DataService.set('type', data.type || null);
+
+            if (
+                data.type === 'movie' ||
+                data.type === 'movies' ||
+                data.type === 'flick' ||
+                data.type === 'flicks'
+            ) {
+                DataService.set('type', 'movie');
+            } else {
+                DataService.set('type', 'tv');
+            }
+
             DataService.set('selectedYear', data.year || null);
         },
     },
