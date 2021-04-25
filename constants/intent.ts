@@ -2,22 +2,22 @@ import { DataService } from '../services';
 
 export const Intents = {
     Name: {
-        patterns: [/(.+)?name/i],
+        patterns: [/name/i],
     },
     Colour: {
-        patterns: [/(.+)?color|colour|color/i],
+        patterns: [/color|colour|color/i],
     },
     Weather: {
         patterns: [
             /(.+)?weather|temp|temperature|condition|snow|rain|hot|sunny/i,
         ],
     },
-    // Movies: {
-    //     patterns: [/.+movies|tv|show|flick.+/i],
-    // },
+    Movies: {
+        patterns: [/(.+)?movies|tv|show|flick.+/i],
+    },
     GetMovies: {
         patterns: [
-            /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?<type>(movies|flicks|shows)) \w+ (?<year>\d{4})?/i,
+            /(.+)?(?<category>(top|best|most popular|top rated|highest rated)) (?<genre>\w.+?) (?:(movies|flicks|shows)) \w+ (?<year>\d{4})?/i,
         ],
         setData: (data) => {
             console.log('matched groups', data);
@@ -42,12 +42,12 @@ export const Intents = {
         patterns: [/.+actor|actress|cast|lead|character.+/i],
     },
     Confirm: {
-        patterns: [/.+yes|sure|ok|yup|fine.+/i],
+        patterns: [/yes|sure|ok|yup|fine/i],
     },
     Cancel: {
-        patterns: [/.+no|nope|cancel|continue.+/i],
+        patterns: [/no|nope|cancel|continue/i],
     },
     Exit: {
-        patterns: [/.+bye|exit|goodbye|cya'.+/i],
+        patterns: [/bye|exit|goodbye|cya/i],
     },
 };
