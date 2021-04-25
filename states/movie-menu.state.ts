@@ -93,19 +93,19 @@ export const MovieMenuState = {
                     sortBy,
                     selectedYear
                 );
-                DataService.set('movies', movies.length || null);
+                DataService.set('movies', movies);
                 MovieMenuState.GetMovies.error = false;
             } catch (e) {
                 MovieMenuState.GetMovies.error = true;
             }
         },
         text: () => {
-            let movies = DataService.get('movies');
+            let movies = DataService.get('movies').length || null;
             if (!MovieMenuState.GetMovies.error && movies) {
                 movies = movies
                     .map(
                         (item, index) =>
-                            `${index}. ${
+                            `${++index}. ${
                                 item.original_title || item.original_name
                             }`
                     )

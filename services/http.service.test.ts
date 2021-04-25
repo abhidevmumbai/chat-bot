@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { HttpService } from './http.service';
+import axios from 'axios';
 
 describe('`Http Service`', () => {
     it('should offer `getWeatherByLocation`', () => {
@@ -72,6 +72,9 @@ describe('`Http Service`', () => {
     it('should get weather by location', async () => {
         const genreId = 28;
         const actorId = 206;
+        const type = 'movie';
+        const sortBy = 'popularity.desc';
+        const selectedYear = '2021';
         const response = {
             data: {
                 results: [{ original_title: 'Sonic the Hedgehog', id: 454626 }],
@@ -81,7 +84,10 @@ describe('`Http Service`', () => {
         mock.mockReturnValueOnce(Promise.resolve(response));
         const movies = await HttpService.getMovieRecommendations(
             genreId,
-            actorId
+            type,
+            actorId,
+            sortBy,
+            selectedYear
         );
         expect(movies).toEqual(response.data.results);
     });
