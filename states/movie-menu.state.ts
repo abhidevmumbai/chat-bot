@@ -58,7 +58,7 @@ export const MovieMenuState = {
         type: StateTypes.Question,
         isIntent: true,
         text: () =>
-            'What movies/shows do you like? e.g You can ask "top action movies from 2000"',
+            'What movies/shows do you like? For example You can ask "top action movies from 2000"',
     },
     GetMovies: {
         type: StateTypes.Statement,
@@ -75,9 +75,8 @@ export const MovieMenuState = {
                     MovieMenuState.GetMovies.error = true;
                 }
             }
-            HelperService.setSelectedGenre();
-
-            const selectedGenre = DataService.get('selectedGenre');
+            const selectedGenre = HelperService.getSelectedGenre(genres);
+            DataService.set('selectedGenre', selectedGenre && selectedGenre);
             const selectedGenreId = selectedGenre ? selectedGenre.id : null;
             const selectedActor = DataService.get('selectedActor');
             const selectedActorId = selectedActor ? selectedActor.id : null;

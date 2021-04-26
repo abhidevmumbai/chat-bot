@@ -68,7 +68,7 @@ export const MenuState = {
         cancel: 'WhatMovies',
         text: () => {
             const type = DataService.get('type');
-            return `Would you like to set your ${type} preferences i.e genre or actors?`;
+            return `Would you like to set your ${type} preferences like genre or actors?`;
         },
     },
     Exit: {

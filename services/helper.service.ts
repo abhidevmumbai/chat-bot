@@ -25,12 +25,12 @@ class Helper {
         return this.conversations[key].replies[index];
     }
 
-    setSelectedGenre() {
-        let genres = DataService.get('genres');
+    getSelectedGenre(genres) {
         if (genres?.length) {
             const selectedGenreName = DataService.get('selectedGenreName');
+            let selectedGenre = null;
             if (selectedGenreName) {
-                const selectedGenre = genres.find(
+                selectedGenre = genres.find(
                     (item) => item.name.toLowerCase() === selectedGenreName
                 );
                 DataService.set(
@@ -38,6 +38,7 @@ class Helper {
                     selectedGenre && selectedGenre
                 );
             }
+            return selectedGenre;
         }
     }
 }

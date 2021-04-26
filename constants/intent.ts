@@ -8,12 +8,10 @@ export const Intents = {
         patterns: [/color|colour|color/i],
     },
     Weather: {
-        patterns: [
-            /(.+)?weather|temp|temperature|condition|snow|rain|hot|sunny/i,
-        ],
+        patterns: [/weather|temp|temperature|condition|snow|rain|hot|sunny/i],
     },
     Movies: {
-        patterns: [/(.+)?recommend (?<type>(movie|tv|show|flick)s?)/i],
+        patterns: [/recommend (?<type>(movie|tv|show|flick)s?)/i],
         setData: (data) => {
             if (data.type === 'tv' || data.type === 'shows') {
                 DataService.set('type', 'tv');
