@@ -26,7 +26,7 @@ class Helper {
         return this.conversations[key].replies[index];
     }
 
-    getSelectedGenre(genres: Genre[]): string {
+    getSelectedGenre(genres: Genre[]): Genre {
         if (genres?.length) {
             const selectedGenreName = DataService.get('selectedGenreName');
             let selectedGenre = null;

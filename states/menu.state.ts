@@ -15,7 +15,7 @@ export const MenuState = {
             `What can I help you with today? You can ask me about ${MenuState.Menu.choices.join(
                 ', '
             )}`,
-        choices: ['Name', 'Colour', 'Weather', 'Movies'],
+        choices: ['Name', 'Colour', 'Weather', 'Recommend Movies'],
     },
     Name: {
         type: StateTypes.Statement,

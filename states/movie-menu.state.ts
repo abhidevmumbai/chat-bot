@@ -58,7 +58,7 @@ export const MovieMenuState = {
         type: StateTypes.Question,
         isIntent: true,
         text: () =>
-            'What movies/shows do you like? For example You can ask "top action movies from 2000"',
+            'What movies/shows do you like? For example You can ask "top action movies/shows from 2000"',
     },
     GetMovies: {
         type: StateTypes.Statement,
