@@ -18,7 +18,7 @@ export class Prompt {
         console.log(phrase);
     }
 
-    question(phrase: string) {
+    question(phrase: string): Promise<string> {
         return new Promise((resolve) => {
             this.interface.question(`${phrase}\r\n> `, (answer) =>
                 resolve(answer)

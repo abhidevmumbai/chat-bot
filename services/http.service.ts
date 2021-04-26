@@ -18,7 +18,7 @@ class Http {
         };
     }
 
-    async getWeatherByLocation(location): Promise<string> {
+    async getWeatherByLocation(location: string): Promise<string> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: this.weatherAPI.url,
@@ -51,7 +51,7 @@ class Http {
         return genres;
     }
 
-    async getActorByName(name): Promise<Actor> {
+    async getActorByName(name: string): Promise<Actor> {
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/search/person`,
@@ -80,6 +80,7 @@ class Http {
         sortBy = 'popularity.desc',
         year = null
     ): Promise<MovieList> {
+        const limit = 10;
         const options: AxiosRequestConfig = {
             method: 'GET',
             url: `${this.movieApi.url}/3/discover/${type}`,
@@ -96,7 +97,7 @@ class Http {
 
         const response = await axios.request(options);
         let movies = response.data.results;
-        return movies;
+        return movies.length > limit ? movies.slice(0, limit) : movies;
     }
 }
 

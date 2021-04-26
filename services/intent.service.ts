@@ -3,7 +3,7 @@ import { Intents } from '../constants';
 class Intent {
     constructor() {}
 
-    getIntent(input) {
+    getIntent(input: string): string {
         let currentIntent = 'None';
         Object.keys(Intents).some((intent) => {
             if (this.foundIntent(intent, input)) {
@@ -16,7 +16,7 @@ class Intent {
         return currentIntent;
     }
 
-    foundIntent(intent, input) {
+    foundIntent(intent: string, input: string): string {
         let found = Intents[intent].patterns.some((regex) => {
             let exec = regex.exec(input);
             if (exec?.groups && Intents[intent].setData) {
