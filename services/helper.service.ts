@@ -6,6 +6,7 @@ import {
 } from '../constants';
 
 import { DataService } from '.';
+import { Genre } from '../models';
 
 class Helper {
     conversations;
@@ -25,7 +26,7 @@ class Helper {
         return this.conversations[key].replies[index];
     }
 
-    getSelectedGenre(genres) {
+    getSelectedGenre(genres: Genre[]): string {
         if (genres?.length) {
             const selectedGenreName = DataService.get('selectedGenreName');
             let selectedGenre = null;
